@@ -8,6 +8,10 @@ int a[N]={0};
 const int capacity=1e6+10;
 int twoPrimes[capacity]={-1};
 
+vector<int> isPrime(N,1);
+int highestPrime[N]={0};
+int lowestPrime[N]={0};
+
 int main(){
     int n,q;
     cin>>n>>q;
@@ -17,39 +21,58 @@ int main(){
         cout<<a[i]<<" ";
     }
     cout<<"\n\n";
-    for (int i = 0; i < n; i++)
+
+    isPrime[0]=0;
+    isPrime[1]=0;
+    cout<<isPrime[2]<<"-=-=-=-\n";
+    for (int i = 2; i < N; i++)
     {
-        for (int j=i; j < n; j++)
+        if (isPrime[i] == 1)
         {
-            int ans=a[i]*a[j];
-            //cout<<a[i]<<"-=-="<<a[j]<<"??\n";
-            //cout<<ans<<"-- ";
-            while( ans< capacity){
-                twoPrimes[ans]=a[j];
-                ans*=a[j];
-                //cout<<ans<<" ";
+            for (int j = 2*i; j < N; j+=i)
+            {
+                highestPrime[j]=i;
+                if (lowestPrime[j]==0)
+                {
+                    lowestPrime[j]=i;
+                }
+                
             }
-            //cout<<'\n';
         }
-        
-    }
-    for (int i = 0; i <100; i++)
-    {
-        //cout<<a[i]<<" ";
     }
     
+
     while (q--)
     {
         int x;
         cin>>x;
-        if (twoPrimes[x])
+
+        int found=0;
+        for (int i = 0; i < n ; i++)
         {
-            cout<<"Yes\n";
+            int temp=x;
+            cout<<x<<"--\n";
+            while (temp%a[i]==0 )
+            {
+                cout<<lowestPrime[temp]<<" ++ "<< highestPrime[temp]<<" -- \n";
+                if (lowestPrime[temp]*highestPrime[temp]==temp)
+                {
+                    cout<<"YES\n";
+                    found=1;
+                    break;
+                }
+                temp/=a[i];
+            }
+            if (found)
+            {
+                break;
+            }
         }
-        else
+        if (!found)
         {
             cout<<"NO\n";
         }
+        
         
     }
     
