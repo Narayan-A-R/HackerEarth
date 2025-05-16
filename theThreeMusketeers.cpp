@@ -3,14 +3,14 @@
 using namespace std;
 const int N=1e4+10;
 int vowelInNames[N];
-long long int choose(int n){
+long long int choose(long long int n){
     if (n<3) return 0;
-    long long int m=1;
-    for (int i = n; i >n-3 && n >=3; i--)
-    {
-        m*=i;
-    }
-    return m/6;
+    //long long int m=1;
+    // for (int i = n; i >n-3 && n >=3; i--)
+    // {
+    //     m*=i;
+    // }
+    return n*(n-1)*(n-2)/6;
 
 }
 long long int common1(int * vowelInNames,int capacity){
@@ -142,11 +142,11 @@ int main(){
         
 
 
-        long long int common=  common1(vowelInNames,n)
-                    -common2(vowelInNames,n)
-                    +common3(vowelInNames,n)
-                    -common4(vowelInNames,n)
-                    +common5(vowelInNames,n);
+        // long long int common=  common1(vowelInNames,n)
+        //             -common2(vowelInNames,n)
+        //             +common3(vowelInNames,n)
+        //             -common4(vowelInNames,n)
+        //             +common5(vowelInNames,n);
 
         // cout<<common1(vowelInNames,n)<<"  --- 1\n";
         // cout<<common2(vowelInNames,n)<<"  --- 2\n";
@@ -154,11 +154,86 @@ int main(){
         // cout<<common4(vowelInNames,n)<<"  --- 4\n";
         // cout<<common5(vowelInNames,n)<<"  --- 5\n";
         // cout<<common<<"  ---------------\n";
-        cout<<common<<'\n';
-        
-        
+        //cout<<common<<'\n';
+        long long int sum=0;
+        for (int mask = 1; mask < (1<<5); mask++)
+        {
+            long long int cnt=0;
+            for (int i = 0; i < n; i++)
+            {
+                if((vowelInNames[i]&mask) ==  mask) cnt++;
+            }
+            if(__builtin_popcount(mask)&1){
+                sum+=choose(cnt);
+            }else{
+                sum-=choose(cnt);
+            }
+        }
+        cout<<sum<<'\n';
         
     }
     
+    
     return 0;
 }
+
+// 00000
+// 11111
+// 22222
+// 33333
+// 44444
+// 10000
+// 20000
+// 30000
+// 40000
+// 11111
+// 21111
+// 31111
+// 41111
+// 12222
+// 22222
+// 32222
+// 42222
+// 13333
+// 23333
+// 33333
+// 43333
+// 21000
+// 31000
+// 41000
+// 22000
+// 32000
+// 42000
+// 23000
+// 33000
+// 43000
+// 21100
+// 31100
+// 41100
+// 22100
+// 32100
+// 42100
+// 23100
+// 33100
+// 43100
+// 21200
+// 31200
+// 41200
+// 22200
+// 32200
+// 42200
+// 23200
+// 33200
+// 43200
+// 21200
+// 31200
+// 41200
+// 22200
+// 32200
+// 42200
+// 23200
+// 33200
+// 43200
+// 32100
+// 42100
+// 43210
