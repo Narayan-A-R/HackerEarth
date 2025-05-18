@@ -4,11 +4,14 @@ using namespace std;
 
 const int N=1e6+10;
 vector<int> graph[N];
+bool visited[N]={false};
 
 void dfs(int vertex){
 
+    visited[vertex]=true;
     for (int child:graph[vertex])
     {
+        if(visited[child]) continue;
         dfs(child);
     }
     
@@ -26,7 +29,13 @@ int main(){
         graph[v2].push_back(v1);
     }
     
-    int vertex=1;
-    dfs(vertex);
+    int cnt=0;
+    for (int i = 1; i <= n; i++)
+    {
+        if(visited[i]) continue;
+        dfs(i);
+        cnt++;
+    }
+    cout<<cnt<<'\n';
     return 0;
 }
